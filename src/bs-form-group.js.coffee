@@ -1,4 +1,4 @@
-geniustradeApp.directive(
+angular.module('bootstrap3.forms').directive(
   'bsFormGroup'
   ($parse) ->
     {
