@@ -1,4 +1,26 @@
-angular.module('bootstrap3.forms').directive(
+angularBootstrap3Forms = angular.module('bootstrap3.forms', [])
+
+angularBootstrap3Forms
+.directive(
+  'bsFormGroup'
+  ($parse) ->
+    {
+      template: "
+         <div class='form-group'>
+           <label class='control-label' ng-class='labelClass' ng-show='label'>{{label}}</label>
+           <div ng-class='wrapperClass' ng-transclude></div>
+         </div>"
+      transclude: 'element'
+      replace: true
+      restrict: 'AE'
+      scope: {
+        label: "@"
+        labelClass: "@"
+        wrapperClass: "@"
+      }
+    }
+)
+.directive(
   'bsField'
   ($compile, $parse) ->
     {
@@ -37,18 +59,18 @@ angular.module('bootstrap3.forms').directive(
 
           when 'select'
             tag = 'select'
-            attrs['ui-select2'] = "SELECT_" + (+new Date)
+            attrs['ui-select2'] = "SELECT_" + (+new Date())
             attrs['select2-width'] = '100%'
             attrs['data-placeholder'] = $scope.placeholder
 
           when 'select-remote'
-            attrs['ui-select2'] = "SELECT_REMOTE_" + (+new Date)
+            attrs['ui-select2'] = "SELECT_REMOTE_" + (+new Date())
             attrs['select2-width'] = '100%'
             attrs['select2-remote'] = $scope.source
             attrs['data-placeholder'] = $scope.placeholder
 
           when 'multiselect-remote'
-            attrs['ui-select2'] = "MULTISELECT_REMOTE_" + (+new Date)
+            attrs['ui-select2'] = "MULTISELECT_REMOTE_" + (+new Date())
             attrs['select2-width'] = '100%'
             attrs['select2-remote'] = $scope.source
             attrs['multiple'] = true
