@@ -5,7 +5,7 @@
 
   angularBootstrap3Forms.directive('bsFormGroup', function($parse) {
     return {
-      template: "         <div class='form-group'>           <label class='control-label' ng-class='labelClass' ng-show='label'>{{label}}</label>           <div ng-class='wrapperClass' ng-transclude></div>         </div>",
+      template: "       <div class='form-group'>         <label class='control-label' ng-class='labelClass' ng-show='label'>{{label}}</label>         <div ng-class='wrapperClass' ng-transclude></div>       </div>",
       transclude: 'element',
       replace: true,
       restrict: 'AE',
@@ -20,7 +20,6 @@
       restrict: 'AE',
       transclude: 'element',
       require: 'ngModel',
-      replace: true,
       scope: {
         rows: '@',
         source: '@',

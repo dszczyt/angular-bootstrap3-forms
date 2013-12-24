@@ -7,24 +7,17 @@ describe "angular-bootstrap3-forms", ->
     scope = $rootScope
     $compile = _$compile_
 
-  createDirective = (data, tmpl) ->
-    scope.data = data if data
-    elt = $compile(tmpl)(scope)
-    scope.$digest()
-    elt
+  describe "bs-form-group", ->
+    describe "no label", ->
+      it 'should render the expected output', ->
+        element = $compile("<bs-form-group></bs-form-group>")(scope)
+        expect(element).toBe('div.form-group')
+        expect(element.children('label.control-label')).toBeHidden()
 
-  describe "no label", ->
-    it 'should render the expected output', ->
-      element = createDirective(null, "<bs-form-group></bs-form-group>")
-      expect(element).toBe('div.form-group')
-      expect(element.children('label.control-label')).toBeHidden()
-
-  describe "with label", ->
-    beforeEach ->
-      element = createDirective(null, "<bs-form-group label='test' label-class='col-md-2'></bs-form-group>")
-
-    it 'should render the expected output', ->
-      inject ($rootScope, $compile) ->
+    describe "with label", ->
+      it 'should render the expected output', ->
+        element = $compile("<bs-form-group label='test' label-class='col-md-2'></bs-form-group>")(scope)
+        scope.$digest()
         expect(element).toBe('div.form-group')
         expect(element).toContain('label.control-label')
         expect(element.children('label.control-label').text()).toEqual('test')
@@ -32,15 +25,25 @@ describe "angular-bootstrap3-forms", ->
 
   describe "bs-field", ->
     describe "with no ng-model", ->
-      beforeEach ->
-        element = ->
-          createDirective(null, "<bs-field></bs-field>");
-
       it "should require ng-model", ->
+        element = ->
+          $compile("<bs-field></bs-field>")(scope)
         expect(-> element()).toThrow()
 
     describe "with ng-model", ->
-      beforeEach ->
-        element = createDirective('xxx', "<bs-field type='string' ng-model='var'></bs-field>")
-      it 'should render the expected output', ->
-        expect(element).toBe('input.form-control')
+      it 'should render the expected output with type string', ->
+        element = $compile("<bs-form-group label='test'><bs-field type='string' ng-model='var'></bs-field></bs-form-group>")(scope)
+        input = element.find(':input')
+        expect(input).toBe('input[type=text].form-control')
+        expect(input.val()).toEqual ''
+        scope.var = 'myVarContent'
+        scope.$digest()
+        expect(input.val()).toEqual 'myVarContent'
+
+
+      it 'should render the expected output with type text', ->
+        element = $compile("<bs-form-group label='test'><bs-field type='text' ng-model='var' rows='42'></bs-field></bs-form-group>")(scope)
+        input = element.find(':input')
+        expect(input).toBe('textarea.form-control')
+        expect(input).toHaveAttr('rows', '42')
+        scope.$digest()
