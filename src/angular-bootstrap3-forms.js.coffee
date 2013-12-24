@@ -27,6 +27,7 @@ angularBootstrap3Forms
       restrict: 'AE'
       transclude: 'element'
       require: 'ngModel'
+      replace: true
       scope: {
         rows: '@'
         source: '@'
